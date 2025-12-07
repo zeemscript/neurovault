@@ -64,10 +64,6 @@ export default function RequestDemoPage() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/10 border border-blue-500/20 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
-            <span className="text-sm font-medium text-blue-400">Request a Demo</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
               Experience NeuroVault
