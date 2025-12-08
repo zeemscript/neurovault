@@ -45,11 +45,11 @@ const TrustedBy = () => {
                 key={`${company.name}-${index}`}
                 className="flex-shrink-0 flex items-center justify-center h-16 sm:h-20 lg:h-24 group"
               >
-                <div className="relative w-32 sm:w-40 lg:w-48 h-full opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="relative w-30 sm:w-40 lg:w-48 h-full opacity-40 group-hover:opacity-100 transition-opacity duration-300">
                   <img
                     src={`https://logo.clearbit.com/${company.domain}`}
                     alt={company.name}
-                    className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="w-50 h-50 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                     onError={(e) => {
                       // Fallback to placeholder if logo fails
                       const target = e.target as HTMLImageElement;

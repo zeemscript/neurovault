@@ -25,7 +25,7 @@ const HeroPage = () => {
 
   return (
     <div className="flex items-center justify-center pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-12">
-      <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white w-full max-w-7xl rounded-2xl flex flex-col justify-center gap-8 p-8 sm:p-12">
+      <div className="bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 text-white w-full max-w-7xl rounded-2xl flex flex-col justify-center gap-8 p-8 sm:p-12">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           <div className="flex flex-col gap-6 lg:gap-8 justify-center flex-1">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
