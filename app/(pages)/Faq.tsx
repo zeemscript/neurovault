@@ -120,7 +120,7 @@ const Faq = () => {
   return (
     <div
       id="faq"
-      className="w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
+      className="w-full py-16 sm:py-20 lg:py-24 bg-linear-to-b from-slate-950 via-slate-900 to-slate-950"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

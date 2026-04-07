@@ -24,7 +24,7 @@ const TrustedBy = () => {
   const duplicatedCompanies = [...companies, ...companies];
 
   return (
-    <div className="w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-slate-950 dark:to-slate-900">
+    <div className="w-full py-16 sm:py-20 lg:py-24 bg-linear-to-b from-gray-50 to-white dark:from-slate-950 dark:to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Trusted By Section */}
@@ -43,17 +43,17 @@ const TrustedBy = () => {
             {duplicatedCompanies.map((company, index) => (
               <div
                 key={`${company.name}-${index}`}
-                className="flex-shrink-0 flex items-center justify-center h-16 sm:h-20 lg:h-24 group"
+                className="shrink-0 flex items-center justify-center h-16 sm:h-20 lg:h-24 group"
               >
-                <div className="relative w-30 sm:w-40 lg:w-48 h-full opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="relative w-32 sm:w-40 lg:w-48 h-12 sm:h-14 opacity-50 group-hover:opacity-100 transition-opacity duration-300">
                   <img
                     src={`https://logo.clearbit.com/${company.domain}`}
                     alt={company.name}
-                    className="w-50 h-50 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                     onError={(e) => {
                       // Fallback to placeholder if logo fails
                       const target = e.target as HTMLImageElement;
-                      target.src = `https://via.placeholder.com/180x80/cccccc/666666?text=${encodeURIComponent(company.name)}`;
+                      target.src = `https://placehold.co/180x80/222222/ffffff?text=${encodeURIComponent(company.name)}`;
                       target.onerror = null; // Prevent infinite loop
                     }}
                     loading="lazy"

@@ -62,7 +62,7 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-600/20 blur-xl"></div>
-                <span className="relative text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                <span className="relative text-2xl font-bold bg-linear-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   NeuroVault
                 </span>
               </div>

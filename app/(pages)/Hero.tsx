@@ -59,30 +59,22 @@ const HeroPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <Button
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-base font-semibold rounded-lg transition-all duration-200"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 w-full text-base font-semibold rounded-xl transition-all duration-200"
               >
                 Request a Demo
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-blue-500 bg-none text-blue-500 px-8 py-6 text-base  font-semibold rounded-lg transition-all duration-200 flex items-center gap-2"
-              >
-                <Play className="w-5 h-5" />
-                Watch Demo
               </Button>
             </div>
           </div>
           <div className="flex-1 flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-md lg:max-w-lg">
-              <Image
-                src="/nv.png"
-                width={500}
-                height={450}
-                alt="NeuroVault Security Platform"
-                className="w-full h-auto object-contain rounded-lg"
-                priority
-              />
+            <div className="relative w-full max-w-md lg:max-w-lg bg-white/5 p-4 sm:p-6 rounded-2xl backdrop-blur-sm border border-slate-700/50 shadow-2xl flex justify-center">
+                <Image
+                  src="/nv.png"
+                  width={500}
+                  height={450}
+                  alt="NeuroVault Security Platform"
+                  className="w-full h-auto object-contain"
+                  priority
+                />
             </div>
           </div>
         </div>

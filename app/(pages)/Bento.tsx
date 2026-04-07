@@ -15,7 +15,6 @@ import {
   FileSearch,
 } from "lucide-react";
 import { useInView } from "@/hooks/use-in-view";
-
 const Bento = () => {
   const { ref: featuresRef, hasBeenInView: featuresInView } = useInView({
     threshold: 0.2,
@@ -105,8 +104,11 @@ const Bento = () => {
   return (
     <div
       id="features"
-      className="w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
+      className="w-full py-16 sm:py-20 lg:py-24 bg-linear-to-b from-slate-950 via-slate-900 to-slate-950"
     >
+   
+
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
@@ -120,26 +122,7 @@ const Bento = () => {
           </p>
         </div>
 
-        {/* Stats Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={index}
-                className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex items-center gap-4 hover:bg-slate-800 transition-colors"
-              >
-                <div className="w-12 h-12 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-blue-400" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+
 
         {/* Bento Grid */}
         <div
@@ -155,7 +138,7 @@ const Bento = () => {
             return (
               <div
                 key={index}
-                className={`${colSpan} ${rowSpan} group relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.gradient} p-6 sm:p-8 border border-slate-700/50 hover:border-slate-600 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-1`}
+                className={`${colSpan} ${rowSpan} group relative overflow-hidden rounded-2xl bg-linear-to-br ${feature.gradient} p-6 sm:p-8 border border-slate-700/50 hover:border-slate-600 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-1`}
                 style={{
                   opacity: featuresInView ? 1 : 0,
                   transform: featuresInView
@@ -166,7 +149,7 @@ const Bento = () => {
               >
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
                 </div>
 
                 {/* Content */}
@@ -193,7 +176,7 @@ const Bento = () => {
                 </div>
 
                 {/* Hover Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
             );
           })}
