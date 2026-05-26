@@ -27,7 +27,7 @@ export async function GET(
     return NextResponse.json({ valid: false, error: "This enrollment link has reached its usage limit" }, { status: 410 });
   }
 
-  const org = link.organizations as { name: string } | null;
+  const org = (Array.isArray(link.organizations) ? link.organizations[0] : link.organizations) as unknown as { name: string } | null;
 
   return NextResponse.json({
     valid: true,

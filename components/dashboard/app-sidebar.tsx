@@ -6,6 +6,8 @@ import {
   LayoutDashboard,
   Eye,
   ShieldCheck,
+  Fingerprint,
+  Puzzle,
   Users,
   Settings,
   BarChart3,
@@ -42,6 +44,16 @@ const navItems = {
       title: "Shadow AI",
       url: "/dashboard/shadow-ai",
       icon: Eye,
+    },
+    {
+      title: "Identity Protection",
+      url: "/dashboard/identities",
+      icon: Fingerprint,
+    },
+    {
+      title: "Safe Browsing",
+      url: "/dashboard/safe-browsing",
+      icon: Puzzle,
     },
     {
       title: "Policies",
@@ -88,9 +100,9 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-slate-800 bg-[#0a0c14]!">
-      <SidebarHeader className="border-b border-slate-800 px-4 py-4">
+      <SidebarHeader className="border-b border-slate-800 px-4 py-4 flex items-center justify-center">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600">
             <Brain className="h-4 w-4 text-white" />
           </div>
           <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent group-data-[collapsible=icon]:hidden">
@@ -99,10 +111,10 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-2 py-2">
+      <SidebarContent className="px-2 py-4 gap-4">
         {Object.entries(navItems).map(([group, items]) => (
-          <SidebarGroup key={group}>
-            <SidebarGroupLabel className="text-slate-500 uppercase text-xs tracking-wider">
+          <SidebarGroup key={group} className="gap-2">
+            <SidebarGroupLabel className="text-slate-500 uppercase text-xs tracking-wider group-data-[collapsible=icon]:hidden">
               {group}
             </SidebarGroupLabel>
             <SidebarGroupContent>

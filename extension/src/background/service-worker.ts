@@ -3,9 +3,11 @@ import {
   ALARM_FLUSH_EVENTS,
   ALARM_REFRESH_POLICIES,
   ALARM_HEARTBEAT,
+  ALARM_SCAN_EXTENSIONS,
   FLUSH_INTERVAL_MINUTES,
   POLICY_REFRESH_INTERVAL_MINUTES,
   HEARTBEAT_INTERVAL_MINUTES,
+  EXTENSION_SCAN_INTERVAL_MINUTES,
 } from "../shared/constants";
 import {
   getToken,
@@ -18,7 +20,8 @@ import {
 import { addEvent, flush, getQueueSize } from "./activity-tracker";
 import { evaluateUrl, refreshPolicies } from "./policy-engine";
 import { initTabMonitor, getActiveTabVisits } from "./tab-monitor";
-import { requestAccess, sendHeartbeat } from "../shared/api-client";
+import { requestAccess, sendHeartbeat, reportBrowserExtensions } from "../shared/api-client";
+import { scanAllExtensions } from "../shared/extension-risk-scanner";
 
 // Initialize tab monitoring
 initTabMonitor();
@@ -57,6 +60,8 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   switch (alarm.name) {
     case ALARM_FLUSH_EVENTS:
       await flush();
+      // Also refresh policies on every flush so access grants are picked up within ~1 min
+      await refreshPolicies().catch(() => {});
       break;
     case ALARM_REFRESH_POLICIES:
       await refreshPolicies();
@@ -67,6 +72,15 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
         await sendHeartbeat(activeTabs);
       } catch {
         // Heartbeat is non-critical
+      }
+      break;
+    case ALARM_SCAN_EXTENSIONS:
+      try {
+        const exts = await scanAllExtensions();
+        await reportBrowserExtensions(exts);
+        console.log(`[NeuroVault] Scanned ${exts.length} extensions`);
+      } catch {
+        // Extension scan is non-critical
       }
       break;
   }
@@ -165,6 +179,16 @@ async function handleMessage(message: {
       }
     }
 
+    case "SCAN_EXTENSIONS": {
+      try {
+        const exts = await scanAllExtensions();
+        await reportBrowserExtensions(exts);
+        return { success: true, count: exts.length };
+      } catch (err: unknown) {
+        return { error: err instanceof Error ? err.message : "Scan failed" };
+      }
+    }
+
     case "LOG_EVENT": {
       const event = message.event as ActivityReportEvent;
       // Resolve ai_tool_id from URL if empty
@@ -196,5 +220,9 @@ function setupAlarms(): void {
   chrome.alarms.create(ALARM_HEARTBEAT, {
     delayInMinutes: HEARTBEAT_INTERVAL_MINUTES,
     periodInMinutes: HEARTBEAT_INTERVAL_MINUTES,
+  });
+  chrome.alarms.create(ALARM_SCAN_EXTENSIONS, {
+    delayInMinutes: 1, // First scan 1 min after auth
+    periodInMinutes: EXTENSION_SCAN_INTERVAL_MINUTES,
   });
 }

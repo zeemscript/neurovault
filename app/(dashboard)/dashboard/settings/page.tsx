@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { ConfirmDialog } from "@/components/dashboard/confirm-dialog";
 import { Label } from "@/components/ui/label";
 import Button from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -54,6 +55,9 @@ export default function SettingsPage() {
   const [bulkEmails, setBulkEmails] = useState("");
   const [bulkInviting, setBulkInviting] = useState(false);
   const [bulkResult, setBulkResult] = useState<{ urls: { email: string; url: string }[] } | null>(null);
+
+  // Confirmation dialog state
+  const [confirmAction, setConfirmAction] = useState<{ type: "revoke-token" | "revoke-link"; id: string } | null>(null);
 
   // Fetch org data
   const fetchOrg = useCallback(async () => {
@@ -405,7 +409,7 @@ export default function SettingsPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleRevokeToken(token.id)}
+                    onClick={() => setConfirmAction({ type: "revoke-token", id: token.id })}
                     className="text-slate-600 hover:text-red-400 hover:bg-red-500/10 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
                   >
                     <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
@@ -492,7 +496,7 @@ export default function SettingsPage() {
                         <HugeiconsIcon icon={Copy01Icon} className="h-3.5 w-3.5" />
                       )}
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleRevokeLink(link.id)}
+                    <Button variant="ghost" size="sm" onClick={() => setConfirmAction({ type: "revoke-link", id: link.id })}
                       className="text-red-400/60 hover:text-red-400 hover:bg-red-500/10 h-8 w-8 p-0">
                       <HugeiconsIcon icon={Delete02Icon} className="h-3.5 w-3.5" />
                     </Button>
@@ -666,6 +670,29 @@ export default function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        open={!!confirmAction}
+        onOpenChange={(open) => !open && setConfirmAction(null)}
+        title={confirmAction?.type === "revoke-token" ? "Revoke Extension Token" : "Revoke Enrollment Link"}
+        description={
+          confirmAction?.type === "revoke-token"
+            ? "This will disconnect the browser extension using this token. The user will need a new token to reconnect. This action cannot be undone."
+            : "This will deactivate the enrollment link. Employees who haven't yet enrolled won't be able to use it. This action cannot be undone."
+        }
+        confirmLabel="Revoke"
+        variant="danger"
+        onConfirm={() => {
+          if (!confirmAction) return;
+          if (confirmAction.type === "revoke-token") {
+            handleRevokeToken(confirmAction.id);
+          } else {
+            handleRevokeLink(confirmAction.id);
+          }
+          setConfirmAction(null);
+        }}
+      />
     </div>
   );
 }

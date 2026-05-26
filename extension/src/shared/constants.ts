@@ -5,11 +5,13 @@ export const DEFAULT_API_BASE = "http://localhost:3000";
 export const ALARM_FLUSH_EVENTS = "flush-events";
 export const ALARM_REFRESH_POLICIES = "refresh-policies";
 export const ALARM_HEARTBEAT = "heartbeat";
+export const ALARM_SCAN_EXTENSIONS = "scan-extensions";
 
 // Intervals (in minutes for chrome.alarms)
 export const FLUSH_INTERVAL_MINUTES = 1;
 export const POLICY_REFRESH_INTERVAL_MINUTES = 5;
 export const HEARTBEAT_INTERVAL_MINUTES = 2;
+export const EXTENSION_SCAN_INTERVAL_MINUTES = 10;
 
 // Queue limits
 export const MAX_QUEUE_SIZE = 500;

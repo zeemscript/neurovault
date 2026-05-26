@@ -1,4 +1,4 @@
-import { ActivityReportEvent, AiTool, CachedPolicies, Policy } from "./types";
+import { ActivityReportEvent, AiTool, BrowserExtensionInfo, CachedPolicies, Policy } from "./types";
 import { getApiBase, getToken } from "./storage";
 
 async function apiRequest<T>(
@@ -57,6 +57,15 @@ export async function sendHeartbeat(
   await apiRequest("/api/extension/heartbeat", {
     method: "POST",
     body: JSON.stringify({ active_tabs: activeTabs }),
+  });
+}
+
+export async function reportBrowserExtensions(
+  extensions: BrowserExtensionInfo[]
+): Promise<{ received: number }> {
+  return apiRequest("/api/extension/report-extensions", {
+    method: "POST",
+    body: JSON.stringify({ extensions }),
   });
 }
 

@@ -21,7 +21,7 @@ export const activityReportSchema = z.object({
       duration_secs: z.number().optional(),
       event_type: z.enum(["visit", "paste", "upload", "download"]),
       timestamp: z.string().datetime(),
-      metadata: z.record(z.unknown()).optional(),
+      metadata: z.record(z.string(), z.unknown()).optional(),
     })
   ),
 });

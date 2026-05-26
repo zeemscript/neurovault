@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "This enrollment link has reached its usage limit" }, { status: 410 });
   }
 
-  const org = link.organizations as { name: string; domain: string | null } | null;
+  const org = (Array.isArray(link.organizations) ? link.organizations[0] : link.organizations) as unknown as { name: string; domain: string | null } | null;
 
   // 2. Optional: validate email domain
   if (org?.domain) {

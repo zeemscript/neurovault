@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Button from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/dashboard/confirm-dialog";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription,
 } from "@/components/ui/dialog";
@@ -68,6 +69,7 @@ export default function AlertsPage() {
     name: "", type: "tool_blocked" as AlertRuleCondition["type"],
     severity: "medium" as AlertSeverity, threshold_count: 10, threshold_window_minutes: 60,
   });
+  const [confirmAction, setConfirmAction] = useState<{ type: "resolve" | "dismiss" | "deny"; id: string; title?: string } | null>(null);
   const supabase = createClient();
 
   const fetchAlerts = useCallback(async () => {
@@ -288,8 +290,8 @@ export default function AlertsPage() {
                       </div>
                       {a.status === "open" && (
                         <div className="flex gap-1 shrink-0">
-                          <button onClick={() => updateAlertStatus(a.id, "resolved")} className="h-7 w-7 flex items-center justify-center rounded-lg text-slate-600 hover:text-emerald-400 hover:bg-emerald-500/10" title="Resolve"><Check className="h-3.5 w-3.5" /></button>
-                          <button onClick={() => updateAlertStatus(a.id, "dismissed")} className="h-7 w-7 flex items-center justify-center rounded-lg text-slate-600 hover:text-slate-300 hover:bg-white/5" title="Dismiss"><X className="h-3.5 w-3.5" /></button>
+                          <button onClick={() => setConfirmAction({ type: "resolve", id: a.id, title: a.title })} className="h-7 w-7 flex items-center justify-center rounded-lg text-slate-600 hover:text-emerald-400 hover:bg-emerald-500/10" title="Resolve"><Check className="h-3.5 w-3.5" /></button>
+                          <button onClick={() => setConfirmAction({ type: "dismiss", id: a.id, title: a.title })} className="h-7 w-7 flex items-center justify-center rounded-lg text-slate-600 hover:text-slate-300 hover:bg-white/5" title="Dismiss"><X className="h-3.5 w-3.5" /></button>
                         </div>
                       )}
                     </div>
@@ -333,7 +335,7 @@ export default function AlertsPage() {
                           <Button size="sm" onClick={() => setGrantModal(req)} className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl h-8 px-3 text-xs">
                             <Check className="h-3 w-3 mr-1" />Grant
                           </Button>
-                          <Button size="sm" variant="ghost" onClick={() => handleDeny(req.id)} className="text-red-400 hover:bg-red-500/10 rounded-xl h-8 px-3 text-xs">
+                          <Button size="sm" variant="ghost" onClick={() => setConfirmAction({ type: "deny", id: req.id, title: req.ai_tools?.name })} className="text-red-400 hover:bg-red-500/10 rounded-xl h-8 px-3 text-xs">
                             <X className="h-3 w-3 mr-1" />Deny
                           </Button>
                         </>
@@ -421,6 +423,41 @@ export default function AlertsPage() {
           </div>
         )
       )}
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        open={!!confirmAction}
+        onOpenChange={(open) => !open && setConfirmAction(null)}
+        title={
+          confirmAction?.type === "resolve" ? "Resolve Alert" :
+          confirmAction?.type === "dismiss" ? "Dismiss Alert" :
+          "Deny Access Request"
+        }
+        description={
+          confirmAction?.type === "resolve"
+            ? `Mark "${confirmAction.title || "this alert"}" as resolved. This indicates the issue has been addressed.`
+            : confirmAction?.type === "dismiss"
+            ? `Dismiss "${confirmAction.title || "this alert"}". Dismissed alerts won't appear in open alerts. Make sure this is not a real threat.`
+            : `Deny access to ${confirmAction?.title || "this tool"}. The employee will not be granted temporary access.`
+        }
+        confirmLabel={
+          confirmAction?.type === "resolve" ? "Resolve" :
+          confirmAction?.type === "dismiss" ? "Dismiss" :
+          "Deny Access"
+        }
+        variant={confirmAction?.type === "resolve" ? "info" : confirmAction?.type === "dismiss" ? "warning" : "danger"}
+        onConfirm={() => {
+          if (!confirmAction) return;
+          if (confirmAction.type === "resolve") {
+            updateAlertStatus(confirmAction.id, "resolved");
+          } else if (confirmAction.type === "dismiss") {
+            updateAlertStatus(confirmAction.id, "dismissed");
+          } else {
+            handleDeny(confirmAction.id);
+          }
+          setConfirmAction(null);
+        }}
+      />
     </div>
   );
 }

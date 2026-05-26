@@ -65,6 +65,22 @@ export interface TokenInfo {
   user_id: string;
 }
 
+export interface BrowserExtensionInfo {
+  extension_id: string;
+  name: string;
+  version: string;
+  description: string;
+  enabled: boolean;
+  install_type: string;
+  permissions: string[];
+  host_permissions: string[];
+  homepage_url?: string;
+  update_url?: string;
+  risk_level: string;
+  risk_score: number;
+  risk_reasons: string[];
+}
+
 export type MessageType =
   | { type: "GET_STATUS" }
   | { type: "LOGIN"; token: string }

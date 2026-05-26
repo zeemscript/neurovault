@@ -3,7 +3,7 @@
   "name": "NeuroVault - AI Security Monitor",
   "version": "0.1.0",
   "description": "Monitor and control AI tool usage across your organization",
-  "permissions": ["tabs", "storage", "alarms", "activeTab", "scripting"],
+  "permissions": ["tabs", "storage", "alarms", "activeTab", "scripting", "management"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "dist/background.js",
