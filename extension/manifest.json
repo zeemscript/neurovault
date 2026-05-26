@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "NeuroVault - AI Security Monitor",
+  "version": "0.1.0",
+  "description": "Monitor and control AI tool usage across your organization",
+  "permissions": ["tabs", "storage", "alarms", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "dist/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["dist/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/NeuroVault_16x16.png",
+      "48": "icons/NeuroVault_48x48.png",
+      "128": "icons/NeuroVault_128x128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/NeuroVault_16x16.png",
+    "48": "icons/NeuroVault_48x48.png",
+    "128": "icons/NeuroVault_128x128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/blocked/blocked.html",
+        "dist/blocked.js",
+        "dist/blocked.js.map"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
